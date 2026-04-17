@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /ve-sistema-interno.html
+Disallow: /css/admin.css
+Disallow: /js/admin.js
+
+Sitemap: https://vidaeterna.com/sitemap.xml
