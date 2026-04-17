@@ -29,7 +29,17 @@
                 };
                 if(!firebase.apps.length) firebase.initializeApp(config);
                 fbDB = firebase.database();
-                toast('Firebase Cloud Conectado Satisfactoriamente');
+                
+                // Connection Check
+                const statusEl = document.getElementById('cloud-status');
+                fbDB.ref('.info/connected').on('value', snap => {
+                    if (snap.val() === true) {
+                        if(statusEl) { statusEl.innerHTML = '<span class="badge-success"><i class="ph ph-cloud-check"></i> Cloud Conectado</span>'; }
+                        toast('Conexión con la Nube establecida');
+                    } else {
+                        if(statusEl) { statusEl.innerHTML = '<span class="badge-danger"><i class="ph ph-cloud-slash"></i> Sin Conexión a la Nube</span>'; }
+                    }
+                });
             } catch(e) { console.error('Firebase error', e); toast('Error al conectar Firebase'); }
         }
     }
@@ -455,7 +465,12 @@
 
     // ===== STATIC PAGES & CONFIG =====
     function dashboardHTML() {
-        return `<div class="editor-card"><div class="editor-card-header"><h3>Dashboard - Vida Eterna</h3></div><div class="editor-card-body">
+        return `<div class="editor-card">
+        <div class="editor-card-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <h3>Dashboard - Vida Eterna</h3>
+            <div id="cloud-status"><span class="badge-warning"><i class="ph ph-circle-notch ph-spin"></i> Verificando Nube...</span></div>
+        </div>
+        <div class="editor-card-body">
         <p>Bienvenido. El menú lateral ha sido restablecido y expandido con tus nuevas herramientas.</p><br>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
             <div style="background:rgba(26,122,92,0.1);padding:1.5rem;border-radius:8px;border:1px solid var(--color-primary);text-align:center;cursor:pointer;" onclick="document.querySelector('[data-section=imagenes]').click()">
@@ -466,7 +481,7 @@
             <div style="background:rgba(0,0,0,0.2);padding:1.5rem;border-radius:8px;border:1px solid #334155;text-align:center;cursor:pointer;" onclick="document.querySelector('[data-section=config]').click()">
                 <i class="ph-fill ph-gear-six" style="font-size:2.5rem;color:#cbd5e1;"></i>
                 <h4 style="color:white;">Configuración</h4>
-                <p style="font-size:0.85rem;color:#94a3b8;">Sube el Logo Principal y la Base de Datos</p>
+                <p style="font-size:0.85rem;color:#94a3b8;">Logotipo y API Keys</p>
             </div>
         </div>
         </div></div>`;
