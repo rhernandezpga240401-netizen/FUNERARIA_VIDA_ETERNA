@@ -16,13 +16,20 @@
     function logout() { localStorage.removeItem(SK); location.reload(); }
     
     function initFirebase() {
-        const configStr = localStorage.getItem('ve_firebase_config');
-        if(configStr && window.firebase) {
+        if(window.firebase) {
             try {
-                const config = JSON.parse(configStr);
+                const config = {
+                    apiKey: "AIzaSyDfEWkRWCbIyzedqJ3HwFiq9pGgLmMxJ8k",
+                    authDomain: "funeraria-vida-eterna-web.firebaseapp.com",
+                    databaseURL: "https://funeraria-vida-eterna-web-default-rtdb.firebaseio.com",
+                    projectId: "funeraria-vida-eterna-web",
+                    storageBucket: "funeraria-vida-eterna-web.firebasestorage.app",
+                    messagingSenderId: "887245833850",
+                    appId: "1:887245833850:web:b8690b00dfa860f9789dc3"
+                };
                 if(!firebase.apps.length) firebase.initializeApp(config);
                 fbDB = firebase.database();
-                toast('Firebase Conectado');
+                toast('Firebase Cloud Conectado Satisfactoriamente');
             } catch(e) { console.error('Firebase error', e); toast('Error al conectar Firebase'); }
         }
     }
@@ -467,16 +474,13 @@
 
     function configHTML() {
         const key = localStorage.getItem('ve_gemini_key') || '';
-        const fbCfg = localStorage.getItem('ve_firebase_config') || '';
         const imgs = getI();
         return `<div class="editor-card"><div class="editor-card-header"><h3>Configuración General y Logotipo</h3></div><div class="editor-card-body">
         ${imgUploadZone('logo','Sube aquí tu Logotipo (Recomendado sin fondo/PNG)',imgs.logo)}
         </div></div>
 
         <div class="editor-card mt-1"><div class="editor-card-header"><h3>Base de Datos en la Nube (Firebase)</h3></div><div class="editor-card-body">
-        <p style="color:#94A3B8;margin-bottom:1.5rem;">Pega el JSON de configuración de Firebase acá, o déjalo vacío para usar el guardado local del navegador.</p>
-        <div class="form-group"><label>Firebase Config</label><textarea id="cfg-firebase" rows="4">${fbCfg}</textarea></div>
-        <button class="btn-save" id="cfg-fb-save">Conectar y Sincronizar Base de Datos</button>
+        <p style="color:#10B981;margin-bottom:1.5rem;font-weight:bold;"><i class="ph ph-check-circle"></i> La base de datos ya está oficialmente conectada desde el código fuente.</p>
         </div></div>
 
         <div class="editor-card mt-1"><div class="editor-card-header"><h3>Configuración de Inteligencia Artificial</h3></div><div class="editor-card-body">
@@ -490,10 +494,6 @@
         document.getElementById('cfg-save-btn').addEventListener('click', () => {
             localStorage.setItem('ve_gemini_key', document.getElementById('cfg-apikey').value);
             toast('Llave guardada');
-        });
-        document.getElementById('cfg-fb-save').addEventListener('click', () => {
-            localStorage.setItem('ve_firebase_config', document.getElementById('cfg-firebase').value);
-            toast('Firebase Config Guardado'); location.reload();
         });
     }
 

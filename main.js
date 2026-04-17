@@ -50,10 +50,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initFirebaseListener() {
-    const configStr = localStorage.getItem('ve_firebase_config');
-    if(configStr && window.firebase) {
+    if(window.firebase) {
         try {
-            const config = JSON.parse(configStr);
+            const config = {
+                apiKey: "AIzaSyDfEWkRWCbIyzedqJ3HwFiq9pGgLmMxJ8k",
+                authDomain: "funeraria-vida-eterna-web.firebaseapp.com",
+                databaseURL: "https://funeraria-vida-eterna-web-default-rtdb.firebaseio.com",
+                projectId: "funeraria-vida-eterna-web",
+                storageBucket: "funeraria-vida-eterna-web.firebasestorage.app",
+                messagingSenderId: "887245833850",
+                appId: "1:887245833850:web:b8690b00dfa860f9789dc3"
+            };
             if(!firebase.apps.length) firebase.initializeApp(config);
             const db = firebase.database();
             
